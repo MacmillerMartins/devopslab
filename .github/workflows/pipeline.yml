@@ -38,9 +38,11 @@ jobs:
         run: heroku container:login
 
       - name: Docker Image & Push Heroku Registry
+        docker:
+          web: Dockerfile
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} --recursive --context-path ../ web
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
 
   Deploy:
       needs: Build
