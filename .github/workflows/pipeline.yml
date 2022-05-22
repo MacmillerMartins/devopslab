@@ -37,6 +37,9 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
 
+      - name: Verify Image Local
+        run: docker image ls
+
       - name: Docker Image & Push Heroku Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
