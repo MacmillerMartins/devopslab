@@ -7,11 +7,10 @@ on:
     branches:
       - main
 
-job:
+jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -59,14 +58,14 @@ job:
           docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/myapp:latest .
           docker push ${{ secrets.ARTIFACT_REGISTRY }}/myapp:latest
 
-   DeployHom:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+  DeployHom:
+  needs: Build
+  runs-on: ubuntu-latest
+  steps:
+    - name: Deploy Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
 
   DeployProd:
     needs: DeployHom
